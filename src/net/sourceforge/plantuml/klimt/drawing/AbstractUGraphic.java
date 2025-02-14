@@ -2,7 +2,7 @@
  * PlantUML : a free UML diagram generator
  * ========================================================================
  *
- * (C) Copyright 2009-2024, Arnaud Roques
+ * (C) Copyright 2009-2025, Arnaud Roques
  *
  * Project Info:  https://plantuml.com
  * 
@@ -41,6 +41,7 @@ import java.util.Map;
 import net.atmp.SpecialText;
 import net.sourceforge.plantuml.activitydiagram3.ftile.CenteredText;
 import net.sourceforge.plantuml.klimt.CopyForegroundColorToBackgroundColor;
+import net.sourceforge.plantuml.klimt.MouseEventTarget;
 import net.sourceforge.plantuml.klimt.UParam;
 import net.sourceforge.plantuml.klimt.UPath;
 import net.sourceforge.plantuml.klimt.UShape;
@@ -183,6 +184,8 @@ public abstract class AbstractUGraphic<O> extends AbstractCommonUGraphic {
 		} else if (shape instanceof SpecialText) {
 			// Ignored
 		} else if (shape instanceof CopyForegroundColorToBackgroundColor) {
+			// Ignored
+		} else if (shape instanceof MouseEventTarget) {
 			// Ignored
 		} else if (shape instanceof UPixel) {
 			addPoint(x, y);

@@ -2,7 +2,7 @@
  * PlantUML : a free UML diagram generator
  * ========================================================================
  *
- * (C) Copyright 2009-2024, Arnaud Roques
+ * (C) Copyright 2009-2025, Arnaud Roques
  *
  * Project Info:  https://plantuml.com
  * 
@@ -35,6 +35,7 @@
  */
 package net.sourceforge.plantuml.skin.rose;
 
+import net.sourceforge.plantuml.klimt.MouseEventTarget;
 import net.sourceforge.plantuml.klimt.UGroupType;
 import net.sourceforge.plantuml.klimt.UStroke;
 import net.sourceforge.plantuml.klimt.UTranslate;
@@ -101,6 +102,7 @@ public class ComponentRoseLine extends AbstractComponent {
 		if (dimensionToUse.getHeight() > 0) {
 			final double hoverTargetWidth = 8;
 			ug = ug.apply(UStroke.withThickness(0));
+			ug = ug.apply(new MouseEventTarget());
 			ug = ug.apply(HColors.transparent());
 			ug = ug.apply(UTranslate.dx((dimensionToUse.getWidth() - hoverTargetWidth) / 2));
 			ug.draw(URectangle.build(hoverTargetWidth, dimensionToUse.getHeight()));

@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import net.sourceforge.plantuml.klimt.CopyForegroundColorToBackgroundColor;
+import net.sourceforge.plantuml.klimt.MouseEventTarget;
 import net.sourceforge.plantuml.klimt.UBackground;
 import net.sourceforge.plantuml.klimt.UChange;
 import net.sourceforge.plantuml.klimt.UClip;
@@ -62,6 +63,7 @@ public abstract class AbstractCommonUGraphic implements UGraphic {
 	private HColor backColor = HColors.none();
 	private HColor color = HColors.none();
 	private boolean enlargeClip = false;
+	private boolean mouseEventTarget = false;
 
 	private final StringBounder stringBounder;
 	private UTranslate translate = UTranslate.none();
@@ -92,6 +94,7 @@ public abstract class AbstractCommonUGraphic implements UGraphic {
 		this.hidden = other.hidden;
 		this.color = other.color;
 		this.backColor = other.backColor;
+		this.mouseEventTarget = other.mouseEventTarget;
 	}
 
 	protected abstract AbstractCommonUGraphic copyUGraphic();
@@ -125,6 +128,8 @@ public abstract class AbstractCommonUGraphic implements UGraphic {
 			copy.color = (HColor) change;
 		} else if (change instanceof CopyForegroundColorToBackgroundColor) {
 			copy.backColor = this.color;
+		} else if (change instanceof MouseEventTarget) {
+			copy.mouseEventTarget = true;
 		}
 		return copy;
 	}
@@ -161,6 +166,10 @@ public abstract class AbstractCommonUGraphic implements UGraphic {
 
 			public UPattern getPattern() {
 				return pattern;
+			}
+
+			public boolean isMouseEventTarget() {
+				return mouseEventTarget;
 			}
 		};
 	}

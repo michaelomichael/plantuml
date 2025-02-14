@@ -2,7 +2,7 @@
  * PlantUML : a free UML diagram generator
  * ========================================================================
  *
- * (C) Copyright 2009-2024, Arnaud Roques
+ * (C) Copyright 2009-2025, Arnaud Roques
  *
  * Project Info:  https://plantuml.com
  * 
@@ -40,6 +40,7 @@ import static net.sourceforge.plantuml.utils.ObjectUtils.instanceOfAny;
 import net.atmp.SpecialText;
 import net.sourceforge.plantuml.activitydiagram3.ftile.CenteredText;
 import net.sourceforge.plantuml.klimt.CopyForegroundColorToBackgroundColor;
+import net.sourceforge.plantuml.klimt.MouseEventTarget;
 import net.sourceforge.plantuml.klimt.UAntiAliasing;
 import net.sourceforge.plantuml.klimt.UBackground;
 import net.sourceforge.plantuml.klimt.UChange;
@@ -78,7 +79,8 @@ public final class LimitFinder extends UGraphicNo {
 				: this.getTranslate();
 		final LimitFinder result = new LimitFinder(this.getStringBounder(), tmp, this.minmax);
 		if (instanceOfAny(change, UAntiAliasing.class, UBackground.class, UClip.class, HColor.class, UHidden.class,
-				UStroke.class, UTranslate.class, CopyForegroundColorToBackgroundColor.class) == false)
+				UStroke.class, UTranslate.class, CopyForegroundColorToBackgroundColor.class,
+				MouseEventTarget.class) == false)
 			throw new UnsupportedOperationException(change.getClass().toString());
 		result.clip = change instanceof UClip ? ((UClip) change).translate(result.getTranslate()) : this.clip;
 		return result;
@@ -133,6 +135,8 @@ public final class LimitFinder extends UGraphicNo {
 		} else if (shape instanceof SpecialText) {
 			// Ignored
 		} else if (shape instanceof CopyForegroundColorToBackgroundColor) {
+			// Ignored
+		} else if (shape instanceof MouseEventTarget) {
 			// Ignored
 		} else if (shape instanceof UPixel) {
 			addPoint(x, y);

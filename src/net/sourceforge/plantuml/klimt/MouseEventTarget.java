@@ -28,46 +28,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  *
- *
- * Original Author:  Arnaud Roques
- * 
- *
  */
 package net.sourceforge.plantuml.klimt;
 
-import net.sourceforge.plantuml.klimt.color.HColor;
-import net.sourceforge.plantuml.klimt.color.HColors;
+/**
+ * In SVG output, for example, this causes the shape to be rendered in such a way that it can serve as a hit
+ * target for mouse events. (It will, ultimately, prevent the renderer from replacing transparent colours like
+ * "#00000000" with `fill="none"`.)
+ */
+public class MouseEventTarget implements UChange {
 
-public class UParamNull implements UParam {
-	// ::remove file when __HAXE__
-
-	@Override
-	public HColor getColor() {
-		return HColors.BLACK;
-	}
-
-	@Override
-	public HColor getBackcolor() {
-		return HColors.BLACK;
-	}
-
-	@Override
-	public UStroke getStroke() {
-		return UStroke.simple();
-	}
-
-	@Override
-	public boolean isHidden() {
-		return false;
-	}
-
-	@Override
-	public UPattern getPattern() {
-		return UPattern.FULL;
-	}
-
-	@Override
-	public boolean isMouseEventTarget() {
-		return false;
-	}
 }

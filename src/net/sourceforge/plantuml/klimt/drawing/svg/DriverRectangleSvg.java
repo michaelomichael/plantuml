@@ -2,7 +2,7 @@
  * PlantUML : a free UML diagram generator
  * ========================================================================
  *
- * (C) Copyright 2009-2024, Arnaud Roques
+ * (C) Copyright 2009-2025, Arnaud Roques
  *
  * Project Info:  https://plantuml.com
  * 
@@ -81,6 +81,8 @@ public class DriverRectangleSvg implements UDriver<URectangle, SvgGraphics> {
 	}
 
 	public static void applyFillColor(SvgGraphics svg, ColorMapper mapper, UParam param) {
+		svg.setMouseEventTarget(param.isMouseEventTarget());
+
 		final HColor background = param.getBackcolor();
 		if (background instanceof HColorGradient) {
 			final HColorGradient gr = (HColorGradient) background;

@@ -2,7 +2,7 @@
  * PlantUML : a free UML diagram generator
  * ========================================================================
  *
- * (C) Copyright 2009-2024, Arnaud Roques
+ * (C) Copyright 2009-2025, Arnaud Roques
  *
  * Project Info:  https://plantuml.com
  *
@@ -83,6 +83,9 @@ import net.sourceforge.plantuml.utils.Base64Coder;
 import net.sourceforge.plantuml.utils.Log;
 import net.sourceforge.plantuml.xml.XmlFactories;
 
+import static net.sourceforge.plantuml.klimt.drawing.svg.SvgGraphics.TransparentFillBehaviour.FILL_NONE;
+import static net.sourceforge.plantuml.klimt.drawing.svg.SvgGraphics.TransparentFillBehaviour.FILL_WITH_FILL_OPACITY;
+
 public class SvgGraphics {
 	// ::remove file when __HAXE__
 
@@ -99,6 +102,11 @@ public class SvgGraphics {
 	// http://www.w3schools.com/svg/svg_feoffset.asp
 	// http://www.adobe.com/svg/demos/samples.html
 
+	enum TransparentFillBehaviour {
+		FILL_NONE,
+		FILL_WITH_FILL_OPACITY
+	}
+
 	private static final String XLINK_TITLE1 = "title";
 	private static final String XLINK_TITLE2 = "xlink:title";
 	private static final String XLINK_HREF1 = "href";
@@ -109,6 +117,7 @@ public class SvgGraphics {
 	final private Element defs;
 	final private Element gRoot;
 
+	private TransparentFillBehaviour transparentFillBehaviour = FILL_NONE;
 	private String fill = "black";
 	private String stroke = "black";
 
@@ -407,8 +416,21 @@ public class SvgGraphics {
 		return id;
 	}
 
+	public final void setMouseEventTarget(boolean mouseEventTarget) {
+		this.transparentFillBehaviour = mouseEventTarget
+				? FILL_WITH_FILL_OPACITY
+				: FILL_NONE;
+	}
+
 	public final void setFillColor(String fill) {
-		this.fill = fixColor(fill);
+		switch (transparentFillBehaviour) {
+			case FILL_NONE:
+				this.fill = fixColor(fill);
+				break;
+			case FILL_WITH_FILL_OPACITY:
+				this.fill = fill;
+				break;
+		}
 	}
 
 	public final void setStrokeColor(String stroke) {
@@ -417,10 +439,9 @@ public class SvgGraphics {
 
 	// https://forum.plantuml.net/12469/package-background-transparent-package-default-background?show=12479#c12479
 	// https://github.com/plantuml/plantuml-server/issues/348#issuecomment-2581253011
+	// https://github.com/plantuml/plantuml/issues/2071
 	private String fixColor(String color) {
-		// Since "transparent" isn’t being recognized (even though it should be), we use
-		// #FFFFFF00 as an alternative
-		return color == null || "#00000000".equals(color) ? "#FFFFFF00" : color;
+		return color == null || "#00000000".equals(color) ? "none" : color;
 	}
 
 	public final void setStrokeWidth(double strokeWidth, String strokeDasharray) {
@@ -756,9 +777,6 @@ public class SvgGraphics {
 	}
 
 	private void fillMe(Element elt) {
-		if (fill.equals("#00000000"))
-			return;
-
 		if (fill.matches("#[0-9A-Fa-f]{8}")) {
 			elt.setAttribute("fill", fill.substring(0, 7));
 			final double opacity = Integer.parseInt(fill.substring(7), 16) / 255.0;

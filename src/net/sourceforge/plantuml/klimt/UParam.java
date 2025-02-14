@@ -2,7 +2,7 @@
  * PlantUML : a free UML diagram generator
  * ========================================================================
  *
- * (C) Copyright 2009-2024, Arnaud Roques
+ * (C) Copyright 2009-2025, Arnaud Roques
  *
  * Project Info:  https://plantuml.com
  * 
@@ -38,13 +38,15 @@ package net.sourceforge.plantuml.klimt;
 import net.sourceforge.plantuml.klimt.color.HColor;
 
 public interface UParam {
-	public HColor getColor();
+	HColor getColor();
 
-	public HColor getBackcolor();
+	HColor getBackcolor();
 
-	public UStroke getStroke();
+	UStroke getStroke();
 
-	public boolean isHidden();
+	boolean isHidden();
 
-	public UPattern getPattern();
+	UPattern getPattern();
+
+	boolean isMouseEventTarget();
 }
